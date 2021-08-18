@@ -1,23 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Button } from "./components";
+import "./App.css";
+
+const selectionButtons = [
+  {
+    key: `button-${1}`,
+    text: 1,
+  },
+  {
+    key: `button-${2}`,
+    text: 2,
+  },
+  {
+    key: `button-${3}`,
+    text: 3,
+  },
+];
 
 function App() {
+  const [initialButtonState, setInitialButtonState] = useState(1);
+  const [selectionButtonsHidden, setSelectionButtonsHidden] = useState(true);
+
+  const handleInitialButtonClick = () => {
+    setSelectionButtonsHidden(false);
+  };
+
+  const handleSelectionButtonClick = (e) => {
+    setInitialButtonState(e.target.value);
+    setSelectionButtonsHidden(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-wrapper">
+      <div className="initial-button buttons">
+        <Button
+          key="initial-button"
+          text={initialButtonState}
+          onClick={handleInitialButtonClick}
+        />
+      </div>
+      <div className="selection-buttons buttons">
+        {!selectionButtonsHidden &&
+          selectionButtons.map((item) => (
+            <Button {...item} onClick={handleSelectionButtonClick} />
+          ))}
+      </div>
     </div>
   );
 }
